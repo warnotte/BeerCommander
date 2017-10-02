@@ -48,13 +48,6 @@ public class Commandes extends AppCompatActivity {
                 Log.d("Tab", "DO IT "+map);
 
 
-                if(swipeDetector.swipeDetected()) {
-                    if(swipeDetector.getAction() == Action.RL) {
-
-                    } else {
-
-                    }
-                }
 
                 adapter.notifyDataSetChanged();
 
