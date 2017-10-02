@@ -13,12 +13,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import android.os.Handler;
+
 import java.util.ArrayList;
 
 public class Commandes extends AppCompatActivity {
 
     //LIST OF ARRAY STRINGS WHICH WILL SERVE AS LIST ITEMS
-    ArrayList<ItemCommande> listItems=new ArrayList<ItemCommande>();
+    ArrayList<ItemCommande> listItems = new ArrayList<ItemCommande>();
 
     //DEFINING A STRING ADAPTER WHICH WILL HANDLE THE DATA OF THE LISTVIEW
     LstViewAdapter adapter;
@@ -27,21 +29,24 @@ public class Commandes extends AppCompatActivity {
 
     Context context;
 
+    int NotificationLen = 750;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commandes);
 
-
-        listItems.add(new ItemCommande("New Item 1", 0));
-        listItems.add(new ItemCommande("New Item 2", 0));
-        listItems.add(new ItemCommande("New Item 3", 0));
+        listItems.add(new ItemCommande("Bière(s)", 0));
+        listItems.add(new ItemCommande("Panaché(s)", 0));
+        listItems.add(new ItemCommande("Mazout(s)", 0));
+        listItems.add(new ItemCommande("Tango(s)", 0));
+        listItems.add(new ItemCommande("Blanc-Coca(s)", 0));
+        listItems.add(new ItemCommande("Blanc-Jus(s)", 0));
 
 
         //   adapter=new ArrayAdapter<ItemCommande>(this, android.R.layout.simple_list_item_1,  listItems);
 
         list = (ListView) findViewById(R.id.listView1);
-
 
 
         adapter = new LstViewAdapter(this, R.layout.list_item, R.id.txt, listItems);
@@ -61,26 +66,25 @@ public class Commandes extends AppCompatActivity {
 
     }
 
-    public void clickMe(View view){
+    public void clickRemoveItem(View view) {
 
-        Button bt=(Button)view;
+        Button bt = (Button) view;
 
-        final int position = list.getPositionForView((LinearLayout)view.getParent());
+        final int position = list.getPositionForView((LinearLayout) view.getParent());
         if (position >= 0) {
             decrease_item_amount(position);
-        }
-        else
+        } else
             Log.d("Tag", "Errer dd4e64e6");
 
     }
 
     private void decrease_item_amount(int position) {
         ItemCommande map = (ItemCommande) list.getItemAtPosition(position);
-        if (map.count>0)
+        if (map.count > 0)
             map.count--;
         Log.d("Tab", "DO IT " + map);
         adapter.notifyDataSetChanged();
-        Toast.makeText(this, "Un-Schack!",Toast.LENGTH_SHORT).show();
+        showToastMessage("-1 " + map.label, NotificationLen);
     }
 
     private void increase_item_amount(int position) {
@@ -88,8 +92,28 @@ public class Commandes extends AppCompatActivity {
         map.count++;
         Log.d("Tab", "DO IT " + map);
         adapter.notifyDataSetChanged();
-        Toast.makeText(this, "Schack!",Toast.LENGTH_SHORT).show();
+        showToastMessage("+1 " + map.label, NotificationLen);
+
+    }
+
+    public void addItem(String label)
+    {
+        listItems.add(new ItemCommande("label", 1));
+        adapter.notifyDataSetChanged();
+        showToastMessage("+1 " + label, NotificationLen);
     }
 
 
+
+    public void showToastMessage(String text, int duration) {
+        final Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
+        toast.show();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                toast.cancel();
+            }
+        }, duration);
+    }
 }
