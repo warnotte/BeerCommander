@@ -14,7 +14,7 @@ public class ItemCommande {
         this.count = cpt;
     }
 
-
+//
     public String toString()
     {
         return "["+count+"] - "+label;
