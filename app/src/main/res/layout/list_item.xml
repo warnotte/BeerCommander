@@ -24,8 +24,8 @@
             android:onClick="clickRemoveItem"
 
             android:padding="10sp"
-            tools:text="-">
+            tools:text="-"/>
 
-        </Button>
+
 
 </LinearLayout>

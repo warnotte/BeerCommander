@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ public class Commandes extends AppCompatActivity {
     ListView list;
 
     Context context;
+    EditText newElementTexTfield;
 
     int NotificationLen = 750;
 
@@ -35,6 +37,7 @@ public class Commandes extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commandes);
+
 
         listItems.add(new ItemCommande("Bière(s)", 0));
         listItems.add(new ItemCommande("Panaché(s)", 0));
@@ -47,6 +50,8 @@ public class Commandes extends AppCompatActivity {
         //   adapter=new ArrayAdapter<ItemCommande>(this, android.R.layout.simple_list_item_1,  listItems);
 
         list = (ListView) findViewById(R.id.listView1);
+
+        newElementTexTfield = (EditText) findViewById(R.id.editText2);;
 
 
         adapter = new LstViewAdapter(this, R.layout.list_item, R.id.txt, listItems);
@@ -77,6 +82,11 @@ public class Commandes extends AppCompatActivity {
             Log.d("Tag", "Errer dd4e64e6");
 
     }
+
+    public void clickAddNewItem(View view) {
+        showToastMessage("Add "+newElementTexTfield.getText(), NotificationLen);
+    }
+
 
     private void decrease_item_amount(int position) {
         ItemCommande map = (ItemCommande) list.getItemAtPosition(position);
