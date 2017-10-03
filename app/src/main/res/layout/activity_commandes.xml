@@ -6,39 +6,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="wax.application.org.beercommander.Commandes"
-    tools:layout_editor_absoluteY="81dp"
-    tools:layout_editor_absoluteX="0dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="1">
 
     <ListView
         android:id="@+id/listView1"
         android:layout_width="match_parent"
-        android:layout_height="412dp" />
-
-    />
+        android:layout_height="match_parent"
+        android:layout_weight="1.0" />
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_weight="1">
+        android:layout_height="wrap_content"
+        android:background="#00B0FF"
+        android:orientation="horizontal">
+
 
         <EditText
             android:id="@+id/editText2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:ems="10"
             android:inputType="textPersonName"
             android:text="Bière" />
 
         <Button
             android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Ajoute ça!"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:onClick="clickAddNewItem"
-            />
+            android:text="Add" />
+
+        <ToggleButton
+            android:id="@+id/button_mode_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:onClick="clickToggleButtonDeleteElements"
+            android:textOn="!!!"
+            android:textOff="Del" />
 
     </LinearLayout>
 </LinearLayout>

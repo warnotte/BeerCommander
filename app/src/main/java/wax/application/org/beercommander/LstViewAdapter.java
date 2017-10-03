@@ -14,8 +14,11 @@ import java.util.ArrayList;
 public class LstViewAdapter extends ArrayAdapter<ItemCommande> {
 
     int groupid;
+
 	ArrayList<ItemCommande> item_list;
+
 	//ArrayList<ItemCommande> desc;
+	
 	Context context;
 
 	public LstViewAdapter(Context context, int vg, int id, ArrayList<ItemCommande> item_list){
