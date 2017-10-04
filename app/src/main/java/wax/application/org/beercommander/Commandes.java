@@ -5,27 +5,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
 
 public class Commandes extends Activity {
+
+
+    public static Commandes instance;
 
     //LIST OF ARRAY STRINGS WHICH WILL SERVE AS LIST ITEMS
     ArrayList<ItemCommande> listItems = new ArrayList<ItemCommande>();
@@ -39,7 +37,7 @@ public class Commandes extends Activity {
     EditText newElementTexTfield;
     ToggleButton button_mode_delete;
 
-    int NotificationLen = 750;
+    public int NotificationLen = 750;
 
     Handler handler_inactive = new Handler();
     Runnable runnable_inactive;
@@ -50,21 +48,12 @@ public class Commandes extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commandes);
 
-        listItems.add(new ItemCommande("Bière", 0));
-        listItems.add(new ItemCommande("Panaché", 0));
-        listItems.add(new ItemCommande("Mazout", 0));
-        listItems.add(new ItemCommande("Tango", 0));
-        listItems.add(new ItemCommande("Schusst", 0));
-        listItems.add(new ItemCommande("Eau", 0));
-        listItems.add(new ItemCommande("Coca", 0));
-        listItems.add(new ItemCommande("Limonade", 0));
-        listItems.add(new ItemCommande("Orangeade", 0));
-        listItems.add(new ItemCommande("Vielsalm", 0));
-        listItems.add(new ItemCommande("Myrtille-Amelie", 0));
-        listItems.add(new ItemCommande("TchaTcha", 0));
-        listItems.add(new ItemCommande("Vielsalm", 0));
-        listItems.add(new ItemCommande("Blanc-Coca", 0));
-        listItems.add(new ItemCommande("Blanc-Jus", 0));
+        instance = this;
+
+        listItems.add(new ItemCommande(AddItemFromLocalDB.countries[0], 0));
+        listItems.add(new ItemCommande(AddItemFromLocalDB.countries[1], 0));
+        listItems.add(new ItemCommande(AddItemFromLocalDB.countries[2], 0));
+
 
         list = (ListView) findViewById(R.id.listView1);
 
@@ -109,9 +98,14 @@ public class Commandes extends Activity {
 
     public void clickAddNewItem(View view) {
 
+        button_mode_delete.setChecked(false);
+
         Intent tutorialPage = new Intent (this, AddItemFromLocalDB.class);
         startActivity(tutorialPage);
-/*
+
+
+
+        /*
         String str = newElementTexTfield.getText().toString();
         addItem(str);
 */
@@ -156,6 +150,10 @@ public class Commandes extends Activity {
         showToastMessage("Efface " + map.label, 250);
     }
 
+    public boolean checkIfLabelExistsInList(String label) {
+        return checkIfLabelExistsInList(listItems, label);
+    }
+
     private boolean checkIfLabelExistsInList(ArrayList<ItemCommande> listItems, String label) {
         for (int i = 0; i < listItems.size(); i++) {
             if (listItems.get(i).label.equalsIgnoreCase(label) == true)
@@ -190,6 +188,8 @@ public class Commandes extends Activity {
         adapter.notifyDataSetChanged();
         //showToastMessage("INACTIF", 1000);
     }
+
+
 
     public void showToastMessage(String text, int duration) {
         final Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);

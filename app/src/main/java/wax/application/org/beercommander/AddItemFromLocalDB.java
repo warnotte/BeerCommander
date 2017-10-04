@@ -1,77 +1,75 @@
 package wax.application.org.beercommander;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
 public class AddItemFromLocalDB extends Activity {
 
+    static String[] countries = new String[] {
+            "Bière",
+            "Panaché",
+            "Mazout",
+            "Tango",
+            "Schusst",
+            "Eau",
+            "Coca",
+            "Limonade",
+            "Orangeade",
+            "Vielsalm",
+            "Myrtille-Amelie",
+            "TchaTcha",
+            "Vielsalm",
+            "Blanc-Coca",
+            "Blanc-Jus"
+    };
+    List<HashMap<String,String>> aList;
+    SimpleAdapter adapter;
 
-    Commandes parent;
+    EditText newElementTexTfield;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item_from_local_db);
 
-        parent = (Commandes) getParent();
-
-        String[] countries = new String[] {
-                "India",
-                "Pakistan",
-                "Sri Lanka",
-                "China",
-                "Bangladesh",
-                "Nepal",
-                "Afghanistan",
-                "North Korea",
-                "South Korea",
-                "Japan"
-        };
+        newElementTexTfield = (EditText) findViewById(R.id.text_nouvel_element);
 
         // Array of integers points to images stored in /res/drawable-ldpi/
         int[] flags = new int[]{
                 R.drawable.india,
-                R.drawable.pakistan,
-                R.drawable.srilanka,
-                R.drawable.china,
-                R.drawable.bangladesh,
-                R.drawable.nepal,
-                R.drawable.afghanistan,
-                R.drawable.nkorea,
-                R.drawable.skorea,
-                R.drawable.japan
+            R.drawable.pakistan,
+            R.drawable.srilanka,
+            R.drawable.china,
+            R.drawable.bangladesh,
+            R.drawable.nepal,
+            R.drawable.afghanistan,
+            R.drawable.nkorea,
+            R.drawable.skorea,
+            R.drawable.japan
         };
 
         // Each row in the list stores country name, currency and flag
-        List<HashMap<String,String>> aList = new ArrayList<HashMap<String,String>>();
+        aList = new ArrayList<HashMap<String,String>>();
 
         for(int i=0;i<10;i++){
             HashMap<String, String> hm = new HashMap<String,String>();
+
+            if (Commandes.instance.checkIfLabelExistsInList(countries[i]))
+                continue;
+
             hm.put("txt", countries[i]);
-            hm.put("flag", Integer.toString(flags[i]) );
+            hm.put("flag", Integer.toString(flags[i%flags.length]) );
             aList.add(hm);
         }
 
@@ -84,7 +82,7 @@ public class AddItemFromLocalDB extends Activity {
 
         // Instantiating an adapter to store each items
         // R.layout.listview_layout defines the layout of each item
-        SimpleAdapter adapter = new SimpleAdapter(getBaseContext(), aList, R.layout.grid_items, from, to);
+        adapter = new SimpleAdapter(getBaseContext(), aList, R.layout.grid_items, from, to);
 
         // Getting a reference to gridview of MainActivity
         GridView gridView = (GridView) findViewById(R.id.gridview);
@@ -95,21 +93,64 @@ public class AddItemFromLocalDB extends Activity {
         gridView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                Toast.makeText(AddItemFromLocalDB.this, "" + position,
-                        Toast.LENGTH_SHORT).show();
-
-                AddItemFromLocalDB.this.parent.addItem("Turlututu");
+                HashMap<String, String> map = aList.get(position);
+                String label = map.get("txt");
+                Commandes.instance.showToastMessage("Adding " + label,Commandes.instance.NotificationLen);
+                Commandes.instance.addItem(label);
+                removeItem(label);
             }
         });
+    }
 
+    public void removeItem(String label)
+    {
+        for(int i=0;i<aList.size();i++) {
+            HashMap<String,String> o = aList.get(i);
+            String label_item = o.get("txt");
+            if (label_item.equalsIgnoreCase(label)) {
+                aList.remove(i);
+                adapter.notifyDataSetChanged();
+                break;
+            }
+        }
+    }
 
+    public void addNewItem(View view)
+    {
+        String label = newElementTexTfield.getText().toString();
 
-
+        if (checkIfItemExistInDBOrIncommande(label)==false) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("txt", label);
+            map.put("flag", Integer.toString(R.drawable.india));
+            aList.add(map);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_list_produits_dans_db, menu);
         return true;
+    }
+
+    public boolean checkIfItemExistInDBOrIncommande(String label)
+    {
+        // Check dans la DB ici ou dans la commande.
+        if (Commandes.instance.checkIfLabelExistsInList(label)==true)
+        {
+            Commandes.instance.showToastMessage("Existe déjà dans la commande", Commandes.instance.NotificationLen);
+            return true;
+        }
+
+        for(int i=0;i<aList.size();i++) {
+            HashMap<String, String> o = aList.get(i);
+            String label_item = o.get("txt");
+            if (label_item.equalsIgnoreCase(label)) {
+                Commandes.instance.showToastMessage("Existe déjà dans la base de données", Commandes.instance.NotificationLen);
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -18,33 +18,27 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:background="#00B0FF"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="1">
 
-
-        <EditText
-            android:id="@+id/editText2"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Bière" />
 
         <Button
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:onClick="clickAddNewItem"
-            android:text="Add" />
+            android:text="Ajoute boisson"
+            android:layout_weight="0.52" />
 
         <ToggleButton
             android:id="@+id/button_mode_delete"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:onClick="clickToggleButtonDeleteElements"
-            android:textOn="!!!"
-            android:textOff="Del" />
+            android:textOff="Delete Mode"
+            android:textOn="!!!" />
 
     </LinearLayout>
 </LinearLayout>
