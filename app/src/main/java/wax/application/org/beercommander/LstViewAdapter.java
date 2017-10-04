@@ -6,9 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -31,7 +30,7 @@ public class LstViewAdapter extends ArrayAdapter<ItemCommande> {
 	}
 	// Hold views of the ListView to improve its scrolling performance
 	static class ViewHolder {
-		public Text counter;
+		public EditText counter;
 		public TextView textview;
 		public Button buttonAdd;
 		public Button buttonRemove;
@@ -51,7 +50,7 @@ public class LstViewAdapter extends ArrayAdapter<ItemCommande> {
 			viewHolder.textview= (TextView) rowView.findViewById(R.id.txt);
 			viewHolder.buttonRemove= (Button) rowView.findViewById(R.id.btRemove);
 			viewHolder.buttonAdd= (Button) rowView.findViewById(R.id.btAdd);
-			viewHolder.counter= (Text) rowView.findViewById(R.id.editText);
+			viewHolder.counter= (EditText) rowView.findViewById(R.id.editText);
 			rowView.setTag(viewHolder);
 
 		}
@@ -62,7 +61,7 @@ public class LstViewAdapter extends ArrayAdapter<ItemCommande> {
 		holder.textview.setText(obj.label);
 		holder.buttonRemove.setText("-");
 		holder.buttonAdd.setText("+");
-		holder.counter.setData(""+obj.count);
+		holder.counter.setText(""+obj.count);
 		return rowView;
 	}
 
