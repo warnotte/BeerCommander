@@ -47,7 +47,7 @@ public class AddItemFromLocalDB extends Activity {
 
         // Array of integers points to images stored in /res/drawable-ldpi/
         int[] flags = new int[]{
-            R.drawable.Beer_Drink_5431,
+            R.drawable.boisson,
 
         };
 
@@ -114,7 +114,7 @@ public class AddItemFromLocalDB extends Activity {
         if (checkIfItemExistInDBOrIncommande(label)==false) {
             HashMap<String, String> map = new HashMap<>();
             map.put("txt", label);
-            map.put("flag", Integer.toString(R.drawable.india));
+            map.put("flag", Integer.toString(R.drawable.boisson));
             aList.add(map);
             adapter.notifyDataSetChanged();
         }

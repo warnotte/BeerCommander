@@ -19,6 +19,7 @@ import android.widget.ToggleButton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class Commandes extends Activity {
 
@@ -50,10 +51,9 @@ public class Commandes extends Activity {
 
         instance = this;
 
-        listItems.add(new ItemCommande(AddItemFromLocalDB.countries[0], 0));
+        listItems.add(new ItemCommande(AddItemFromLocalDB.countries[0], 1));
         listItems.add(new ItemCommande(AddItemFromLocalDB.countries[1], 0));
         listItems.add(new ItemCommande(AddItemFromLocalDB.countries[2], 0));
-
 
         list = (ListView) findViewById(R.id.listView1);
 
@@ -68,14 +68,11 @@ public class Commandes extends Activity {
             @Override
             @SuppressWarnings("unchecked")
             public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+                //  increase_item_amount(position);
 
-                if (button_mode_delete.isChecked() == false)
-                    increase_item_amount(position);
-                else {
-                    removeItem(position);
-                }
             }
         });
+
 
 
 
@@ -94,21 +91,19 @@ public class Commandes extends Activity {
         } else
             Log.d("Tag", "Errer dd4e64e6");
     }
+    public void clickAddItem(View view) {
+        Button bt = (Button) view;
+        final int position = list.getPositionForView((LinearLayout) view.getParent());
+        if (position >= 0) {
+            increase_item_amount(position);
+        } else
+            Log.d("Tag", "Errer dd4e64e6");
+    }
 
     public void clickAddNewItem(View view) {
-
         button_mode_delete.setChecked(false);
-
         Intent tutorialPage = new Intent (this, AddItemFromLocalDB.class);
         startActivity(tutorialPage);
-
-
-
-        /*
-        String str = newElementTexTfield.getText().toString();
-        addItem(str);
-*/
-
     }
 
     private void decrease_item_amount(int position) {
@@ -184,6 +179,17 @@ public class Commandes extends Activity {
                 return Integer.compare(rhs.count, lhs.count);
             }
         });
+
+        // Remove empty count...
+        List<ItemCommande> todelete = new ArrayList<>();
+
+        for (int i = 0; i < listItems.size(); i++) {
+            if (listItems.get(i).count<=0)
+                todelete.add(listItems.get(i));
+        }
+
+        listItems.removeAll(todelete);
+
         adapter.notifyDataSetChanged();
         //showToastMessage("INACTIF", 1000);
     }
