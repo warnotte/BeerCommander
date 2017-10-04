@@ -27,7 +27,7 @@ public class AddItemFromLocalDB extends Activity {
             "Limonade",
             "Orangeade",
             "Vielsalm",
-            "Myrtille-Amelie",
+            "Myrtille",
             "TchaTcha",
             "Vielsalm",
             "Blanc-Coca",
@@ -47,16 +47,8 @@ public class AddItemFromLocalDB extends Activity {
 
         // Array of integers points to images stored in /res/drawable-ldpi/
         int[] flags = new int[]{
-                R.drawable.india,
-            R.drawable.pakistan,
-            R.drawable.srilanka,
-            R.drawable.china,
-            R.drawable.bangladesh,
-            R.drawable.nepal,
-            R.drawable.afghanistan,
-            R.drawable.nkorea,
-            R.drawable.skorea,
-            R.drawable.japan
+            R.drawable.Beer_Drink_5431,
+
         };
 
         // Each row in the list stores country name, currency and flag

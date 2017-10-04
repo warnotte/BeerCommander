@@ -57,7 +57,6 @@ public class Commandes extends Activity {
 
         list = (ListView) findViewById(R.id.listView1);
 
-        newElementTexTfield = (EditText) findViewById(R.id.editText2);
         button_mode_delete = (ToggleButton) findViewById(R.id.button_mode_delete);
 
         adapter = new LstViewAdapter(this, R.layout.list_item, R.id.txt, listItems);
