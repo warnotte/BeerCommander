@@ -68,7 +68,9 @@ public class Commandes extends Activity {
             @Override
             @SuppressWarnings("unchecked")
             public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-                //  increase_item_amount(position);
+
+                if (button_mode_delete.isChecked() == true)
+                    removeItem(position);
 
             }
         });
@@ -194,6 +196,29 @@ public class Commandes extends Activity {
         //showToastMessage("INACTIF", 1000);
     }
 
+    public void clickSendCommandeParSMS(View view){
+/*
+        SmsManager smsManager = SmsManager.getDefault();
+        smsManager.sendTextMessage("+32479708049", null, "sms message", null, null);
+*/
+        String texteSms = prepareSmsMessage();
+
+        Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+        sendIntent.putExtra("sms_body", texteSms);
+        sendIntent.setType("vnd.android-dir/mms-sms");
+        startActivity(sendIntent);
+    }
+
+    private String prepareSmsMessage()
+    {
+        String str = "";
+        for (int i = 0; i < listItems.size(); i++) {
+            ItemCommande ic = listItems.get(i);
+
+            str += String.format("%d %s\r\n", ic.count, ic.label);
+        }
+        return str;
+    }
 
 
     public void showToastMessage(String text, int duration) {

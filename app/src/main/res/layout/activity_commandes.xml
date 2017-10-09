@@ -7,13 +7,15 @@
     android:layout_height="match_parent"
     tools:context="wax.application.org.beercommander.Commandes"
     android:orientation="vertical"
-    android:weightSum="1">
+    >
 
     <ListView
         android:id="@+id/listView1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1.0" />
+        android:layout_weight="50.0"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false" />
 
 
     <LinearLayout
@@ -21,24 +23,34 @@
         android:layout_height="60dp"
         android:background="#00B0FF"
         android:orientation="horizontal"
-        android:weightSum="1">
+        >
 
 
         <Button
             android:id="@+id/button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="75"
             android:onClick="clickAddNewItem"
-            android:text="Ajoute boisson"
-            android:layout_weight="0.52" />
+            android:text="Ajoute boisson" />
 
         <ToggleButton
             android:id="@+id/button_mode_delete"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="75"
             android:onClick="clickToggleButtonDeleteElements"
             android:textOff="Delete Mode"
-            android:textOn="!!!" />
+            android:textOn="!!!"
+             />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:onClick="clickSendCommandeParSMS"
+            android:text="SMS" />
 
     </LinearLayout>
 </LinearLayout>
